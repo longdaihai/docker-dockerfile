@@ -27,10 +27,16 @@ RUN cd /home \
     && cd /home && tar -xvf php-7.4.9.tar.gz \
     && cd php-7.4.9 \
     && yum -y install ${phpPackages} \
-    && ./configure --prefix=/usr/local/php --with-config-file-path=/etc --with-curl --with-freetype-dir --enable-gd --with-gettext  --with-iconv-dir --with-kerberos --with-libdir=lib64 --with-libxml-dir --with-mysqli --with-openssl --with-pcre-regex --with-pdo-mysql --with-pdo-sqlite --with-pear --with-png-dir --with-jpeg-dir --with-xmlrpc --with-xsl --with-zlib --with-bz2 --with-mhash --enable-fpm --enable-bcmath --enable-libxml --enable-inline-optimization --enable-mbregex --enable-mbstring --enable-opcache --enable-pcntl --enable-shmop --enable-soap --enable-sockets --enable-sysvsem --enable-sysvshm --enable-xml --enable-zip --enable-fpm \
+    && ./configure --prefix=/usr/local/php --with-curl --with-freetype-dir --enable-gd --with-gettext  --with-iconv-dir --with-kerberos --with-libdir=lib64 --with-libxml-dir --with-mysqli --with-openssl --with-pcre-regex --with-pdo-mysql --with-pdo-sqlite --with-pear --with-png-dir --with-jpeg-dir --with-xmlrpc --with-xsl --with-zlib --with-bz2 --with-mhash --enable-fpm --enable-bcmath --enable-libxml --enable-inline-optimization --enable-mbregex --enable-mbstring --enable-opcache --enable-pcntl --enable-shmop --enable-soap --enable-sockets --enable-sysvsem --enable-sysvshm --enable-xml --enable-zip --enable-fpm \
     && make && make install \
     && cp php.ini-production /usr/local/php/lib/php.ini && cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf && cp sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm && cp /usr/local/php/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf \
     && chmod +x /etc/init.d/php-fpm \
+    #安装redis扩展
+    && cd /home && tar -xvf redis-5.3.1.tgz \
+    && cd redis-5.3.1 && /usr/local/php/bin/phpize \
+    && ./configure --with-php-config=/usr/local/php/bin/php-config \
+    && make && make install \
+    && echo  "extension=redis.so"  >> /usr/local/php/lib/php.ini \
     #最后删除不要的文件
     && rm -rf /home/*
    
