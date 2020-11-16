@@ -1,6 +1,6 @@
 FROM centos:centos7
 
-ENV TIME_ZOME=Asia/Shanghai packages="gcc gcc-c++ openssl openssl-devel pcre pcre-devel zlib zlib-devel automake autoconf libtool make" unpackages="automake autoconf libtool make" phpPackages="libxml2 libxml2-devel bzip2 bzip2-devel libcurl libcurl-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel gmp gmp-devel libmcrypt libmcrypt-devel readline readline-devel libxslt libxslt-devel glibc glibc-devel glib2 glib2-devel ncurses curl gdbm-devel db4-devel libXpm-devel libX11-devel gd-devel gmp-devel expat-devel xmlrpc-c xmlrpc-c-devel libicu-devel libmcrypt-devel libmemcached-devel krb5-devel sqlite-devel autoconf"
+ENV PHPVERSION=7.4.9  TIME_ZOME=Asia/Shanghai packages="gcc gcc-c++ openssl openssl-devel pcre pcre-devel zlib zlib-devel automake autoconf libtool make" unpackages="automake autoconf libtool make" phpPackages="libxml2 libxml2-devel bzip2 bzip2-devel libcurl libcurl-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel gmp gmp-devel libmcrypt libmcrypt-devel readline readline-devel libxslt libxslt-devel glibc glibc-devel glib2 glib2-devel ncurses curl gdbm-devel db4-devel libXpm-devel libX11-devel gd-devel gmp-devel expat-devel xmlrpc-c xmlrpc-c-devel libicu-devel libmcrypt-devel libmemcached-devel krb5-devel sqlite-devel autoconf"
 
 RUN yum update -y \
     && yum -y install ${packages} \
@@ -24,8 +24,8 @@ RUN cd /home \
     && ./configure --prefix=/usr --libdir=/lib64 \
     && make && make install \
     #安装php
-    && cd /home && tar -xvf php-7.4.9.tar.gz \
-    && cd php-7.4.9 \
+    && cd /home && tar -xvf php-${PHPVERSION}.tar.gz \
+    && cd php-{PHPVERSION} \
     && yum -y install ${phpPackages} \
     && ./configure --prefix=/usr/local/php --with-curl --with-freetype-dir --enable-gd --with-gettext  --with-iconv-dir --with-kerberos --with-libdir=lib64 --with-libxml-dir --with-mysqli --with-openssl --with-pcre-regex --with-pdo-mysql --with-pdo-sqlite --with-pear --with-png-dir --with-jpeg-dir --with-xmlrpc --with-xsl --with-zlib --with-bz2 --with-mhash --enable-fpm --enable-bcmath --enable-libxml --enable-inline-optimization --enable-mbregex --enable-mbstring --enable-opcache --enable-pcntl --enable-shmop --enable-soap --enable-sockets --enable-sysvsem --enable-sysvshm --enable-xml --enable-zip --enable-fpm \
     && make && make install \
@@ -36,7 +36,14 @@ RUN cd /home \
     && cd redis-5.3.1 && /usr/local/php/bin/phpize \
     && ./configure --with-php-config=/usr/local/php/bin/php-config \
     && make && make install \
-    && echo  "extension=redis.so"  >> /usr/local/php/lib/php.ini \
+    && echo "extension=redis.so" >> /usr/local/php/lib/php.ini \
+    #安装amqp扩展(消息列队使用)
+    && yum -y install librabbitmq-devel \
+    && cd /home && tar -xvf amqp-1.10.2.tgz \
+    && cd amqp-1.10.2 && /usr/local/php/bin/phpize \
+    && ./configure --with-php-config=/usr/local/php/bin/php-config \
+    && make && make install \
+    && echo "extension=amqp.so" >> /usr/local/php/lib/php.ini \
     #最后删除不要的文件
     && rm -rf /home/*
    
