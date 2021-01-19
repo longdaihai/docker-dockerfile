@@ -1,0 +1,16 @@
+FROM php:7.4-cli
+COPY ./tar /home
+RUN apt-get update \
+    && apt-get install -y \
+            librabbitmq-dev \
+    && pecl install amqp-1.10.2 \
+    && docker-php-ext-enable amqp
+WORKDIR /home/web
+
+###RUN ##pecl install redis-5.3.2 \
+   #    ##&& pecl install swoole-4.5.9 \
+   #    ##安装rabbitmq（amqp必要插件 ）
+##RUN cd /home && tar -xvf rabbitmq-c-0.10.0.tar.gz \
+  #    && yum install -y cmake \
+  #    && cd rabbitmq-c-0.10.0 && cmak./c   e && ./configure \
+  #    && make && make install \cmake
