@@ -48,5 +48,5 @@ RUN echo 'PATH=$PATH:/usr/local/php/bin' >> /etc/profile \
     && source /etc/profile
    
 #声明端口
-EXPOSE 8080
+EXPOSE 9501 9502
 
