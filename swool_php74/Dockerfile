@@ -1,6 +1,6 @@
 FROM centos:centos7
 
-ENV PHPVERSION=7.4.13 TIME_ZOME=Asia/Shanghai
+ENV PHPVERSION=7.4.29 TIME_ZOME=Asia/Shanghai
 ENV packages="gcc gcc-c++ openssl openssl-devel pcre pcre-devel zlib zlib-devel automake autoconf libtool make" unpackages="automake autoconf libtool make" phpPackages="libxml2 libxml2-devel bzip2 bzip2-devel libcurl libcurl-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel gmp gmp-devel libmcrypt libmcrypt-devel readline readline-devel libxslt libxslt-devel glibc glibc-devel glib2 glib2-devel ncurses curl gdbm-devel db4-devel libXpm-devel libX11-devel gd-devel gmp-devel expat-devel xmlrpc-c xmlrpc-c-devel libicu-devel libmcrypt-devel libmemcached-devel krb5-devel sqlite-devel autoconf"
 
 RUN yum update -y \
