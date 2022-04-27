@@ -4,6 +4,7 @@ ENV PHPVERSION=7.1.33 TIME_ZOME=Asia/Shanghai packages="gcc gcc-c++ openssl open
 
 RUN yum update -y \
     && yum -y install ${packages} \
+    && yum clean all \
     && echo "${TIME_ZOME}" > /etc/timezone \
     && ln -sf /usr/share/zoneinfo/${TIME_ZOME} /etc/localtime
 COPY tar/ /home
