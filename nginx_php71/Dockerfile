@@ -49,5 +49,6 @@ RUN cd /home \
    
 #声明nginx端口
 EXPOSE 80
-#执行脚本
+
+#启动容器时执行脚本
 CMD /etc/init.d/php-fpm start && nginx -g "daemon off;"

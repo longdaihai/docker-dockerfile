@@ -28,8 +28,8 @@ RUN cd /home && tar -xvf oniguruma-6.9.5.tar.gz \
     && echo "extension=redis.so" >> /usr/local/php/lib/php.ini \
     #安装amqp扩展(消息列队使用)
     && yum -y install librabbitmq-devel \
-    && cd /home && tar -xvf amqp-1.10.2.tgz \
-    && cd amqp-1.10.2 && /usr/local/php/bin/phpize \
+    && cd /home && tar -xvf amqp-1.11.0.tgz \
+    && cd amqp-1.11.0 && /usr/local/php/bin/phpize \
     && ./configure --with-php-config=/usr/local/php/bin/php-config \
     && make && make install \
     && echo "extension=amqp.so" >> /usr/local/php/lib/php.ini \
