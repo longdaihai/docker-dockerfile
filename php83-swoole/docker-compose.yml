@@ -1,0 +1,16 @@
+services:
+  app:
+    container_name: php84-swoole
+    image: daley-php84-swoole
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/var/www
+    ports:
+      - 9501:9501
+    tty: true
+    deploy:
+      resources:
+        limits:
+          memory: 512M
